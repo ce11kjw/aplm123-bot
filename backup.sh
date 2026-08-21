@@ -3,9 +3,11 @@
 # aplm123-bot WebDAV 自动备份脚本
 # 上传到 WebDAV 根目录（该服务不支持建子目录）
 # ============================================
-WEBDAV_BASE="https://aplm123.dpdns.org/dav/%E7%A7%81%E6%9C%89/%E8%93%9D%E5%A5%8F%E4%BA%91%E4%BC%98%E4%BA%AB%E7%89%88%282TB%29/"
-WEBDAV_USER="aplm123"
-WEBDAV_PASS="zxasqw12"
+# 从 .backup.env 读取凭据（不入 git）
+source "$(dirname "$0")/.backup.env"
+: "${WEBDAV_BASE:?需要在 .backup.env 配置 WEBDAV_BASE}"
+: "${WEBDAV_USER:?需要在 .backup.env 配置 WEBDAV_USER}"
+: "${WEBDAV_PASS:?需要在 .backup.env 配置 WEBDAV_PASS}"
 STAMP=$(date +%Y%m%d_%H%M%S)
 BACKUP_DIR="/tmp/aplm123_backup"
 mkdir -p "$BACKUP_DIR"

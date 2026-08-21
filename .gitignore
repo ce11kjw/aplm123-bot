@@ -5,3 +5,5 @@ downloads/
 *.session-journal
 __pycache__/
 *.pyc
+
+.backup.env
