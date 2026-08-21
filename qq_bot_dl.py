@@ -251,7 +251,7 @@ class QQBot:
                 name = u.get('first_name', '') or u.get('username', '') or str(uid)
                 pts = u.get('points', 0)
                 vip = "👑" if is_vip(u) else ""
-                msg += f"{i+1}. {name} {vip} - {pts}分\n"
+                msg += f"{i+1}. {name} {vip} (ID:{uid}) - {pts}分\n"
             if len(users) > 30:
                 msg += f"\n...共{len(users)}人，仅显示前30"
             self.reply(channel_id, msg_id, msg)

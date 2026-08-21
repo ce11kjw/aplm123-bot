@@ -776,7 +776,7 @@ async def callback(update: Update, ctx: CallbackContext):
         for i, (uid, u) in enumerate(users[:30]):
             name = u.get('first_name', '') or u.get('username', '') or uid
             vip = "👑" if is_vip(u) else ""
-            text += f"{i+1}. {name} {vip} - {u.get('points',0)}分\n"
+            text += f"{i+1}. {name} {vip} (ID:{uid}) - {u.get('points',0)}分\n"
         if len(users) > 30:
             text += f"\n...共{len(users)}人，仅显示前30"
         kb = [[InlineKeyboardButton("⬅️ 返回", callback_data="admin_back")]]
