@@ -35,6 +35,12 @@ def ensure_h264(fp):
 def download(url, uid):
     fn = str(uid) + "_" + os.urandom(4).hex()
 
+    # 0.5 从整段文本中提取真正的链接（用户常把分享文案整段粘进来）
+    import re
+    m = re.search(r"https?://[^\s]+", url or "")
+    if m:
+        url = m.group(0).rstrip("，。、）)】」")
+
     # 0. TikTok 自研解析（直连官方网页，无水印，无第三方依赖）
     u = (url or "").lower()
     if "tiktok.com" in u:

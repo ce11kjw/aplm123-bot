@@ -71,7 +71,10 @@ def is_vip(user):
     return user.get("vip_until", "") >= str(date.today())
 
 def is_admin(uid):
-    return int(uid) in ADMIN_IDS
+    try:
+        return int(uid) in ADMIN_IDS
+    except (ValueError, TypeError):
+        return False
 
 def is_banned(uid):
     bans = load_json(BANS_FILE, {"banned": [], "muted": {}})
