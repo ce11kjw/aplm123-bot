@@ -2,6 +2,7 @@
 """统一下载实现（同步）。bot.py 用 asyncio.to_thread 包装调用。"""
 import os, subprocess, shutil
 from video_parser import parse as parse_video, download as dl_video, detect as detect_platform
+import tiktok_dl
 
 DL_DIR = os.getenv("DL_DIR", "/root/aplm123-bot/downloads")
 os.makedirs(DL_DIR, exist_ok=True)
@@ -34,6 +35,13 @@ def ensure_h264(fp):
 def download(url, uid):
     fn = str(uid) + "_" + os.urandom(4).hex()
 
+    # 0. TikTok 自研解析（直连官方网页，无水印，无第三方依赖）
+    u = (url or "").lower()
+    if "tiktok.com" in u:
+        r = tiktok_dl.download(url, DL_DIR, fn)
+        if r:
+            return r
+
     # 1. 国内平台直链解析
     if detect_platform(url):
         result = parse_video(url)
@@ -43,32 +51,33 @@ def download(url, uid):
                 return {"success": True, "paths": [fp], "type": "video",
                         "title": result.get("title", "")}
 
-    # 2. yt-dlp（TikTok 图集 /photo/ 跳过，交给 gallery-dl）
-    u = (url or "").lower()
-    is_tt_photo = "tiktok.com" in u and "/photo/" in u
-    if not is_tt_photo:
-        out = os.path.join(DL_DIR, fn + ".%(ext)s")
-        try:
-            r = subprocess.run(["yt-dlp", "--no-warnings", "-S", "vcodec:h264,res",
-                                "-f", "b[ext=mp4]/b", "--no-playlist", "-o", out, url],
-                               capture_output=True, text=True, timeout=180)
-            if r.returncode == 0:
-                for f in os.listdir(DL_DIR):
-                    if f.startswith(fn + "."):
-                        fp = os.path.join(DL_DIR, f)
-                        ft = "video" if os.path.splitext(f)[1].lower() in VIDEO_EXT else "image"
-                        if ft == "video":
-                            fp = ensure_h264(fp)
-                        return {"success": True, "paths": [fp], "type": ft}
-        except Exception:
-            pass
+    # 2. yt-dlp（视频+图集都先试，失败再走 gallery-dl）
+    out = os.path.join(DL_DIR, fn + ".%(ext)s")
+    try:
+        r = subprocess.run(["yt-dlp", "--no-warnings", "-S", "vcodec:h264,res",
+                            "-f", "b[ext=mp4]/b", "--no-playlist", "-o", out, url],
+                           capture_output=True, text=True, timeout=180)
+        if r.returncode == 0:
+            for f in os.listdir(DL_DIR):
+                if f.startswith(fn + "."):
+                    fp = os.path.join(DL_DIR, f)
+                    ft = "video" if os.path.splitext(f)[1].lower() in VIDEO_EXT else "image"
+                    if ft == "video":
+                        fp = ensure_h264(fp)
+                    return {"success": True, "paths": [fp], "type": ft}
+    except Exception:
+        pass
 
     # 3. gallery-dl（图片/图集）
     img_dir = os.path.join(DL_DIR, fn + "_imgs")
     os.makedirs(img_dir, exist_ok=True)
     try:
-        subprocess.run(["gallery-dl", "-D", img_dir, url],
-                       capture_output=True, text=True, timeout=120)
+        gd_cmd = ["gallery-dl", "-D", img_dir]
+        ck = "/root/aplm123-bot/cookies.txt"
+        if os.path.exists(ck):
+            gd_cmd += ["--cookies", ck]
+        gd_cmd.append(url)
+        subprocess.run(gd_cmd, capture_output=True, text=True, timeout=120)
         imgs = []
         for root, _, files in os.walk(img_dir):
             for f in sorted(files):

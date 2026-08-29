@@ -9,3 +9,6 @@ __pycache__/
 .backup.env
 
 backup.sh
+
+cookies.txt
+*.bak

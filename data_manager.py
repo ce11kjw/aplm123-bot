@@ -153,9 +153,9 @@ def get_ranking(rank_type="points", limit=10):
         ranking.sort(key=lambda x: x["sign_streak"], reverse=True)
     return ranking[:limit]
 
-def get_my_rank(uid):
+def get_my_rank(uid, rank_type="points"):
     uid = str(uid)
-    ranking = get_ranking("points", 9999)
+    ranking = get_ranking(rank_type, 9999)
     for i, r in enumerate(ranking):
         if r["uid"] == uid:
             return i + 1, r

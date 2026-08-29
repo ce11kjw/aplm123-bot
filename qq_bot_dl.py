@@ -51,7 +51,63 @@ class QQBot:
 
     def reply(self, channel_id, msg_id, content):
         if channel_id:
-            self.api("POST", "/channels/" + channel_id + "/messages", {"content": content, "msg_id": msg_id})
+            if getattr(self, "_c2c", False):
+                self.api("POST", "/v2/users/" + channel_id + "/messages", {"content": content, "msg_id": msg_id})
+            else:
+                self.api("POST", "/channels/" + channel_id + "/messages", {"content": content, "msg_id": msg_id})
+
+    def upload_file(self, channel_id, filepath, file_type=1):
+        """上传文件，返回 file_info（C2C 用 JSON base64，频道用 multipart）"""
+        token = self.get_token()
+        if not token: return None
+        headers = {"Authorization": "QQBot " + token}
+        try:
+            if getattr(self, "_c2c", False):
+                # C2C：JSON body + file_data base64
+                import base64
+                with open(filepath, "rb") as f:
+                    b64 = base64.b64encode(f.read()).decode()
+                path = f"/v2/users/{channel_id}/files"
+                headers["Content-Type"] = "application/json"
+                r = requests.post(API_BASE + path, headers=headers,
+                    json={"file_type": file_type, "file_data": b64,
+                          "srv_send_msg": True, "file_name": os.path.basename(filepath)},
+                    timeout=120)
+            else:
+                # 频道：multipart
+                path = f"/channels/{channel_id}/files"
+                with open(filepath, "rb") as f:
+                    r = requests.post(API_BASE + path, headers=headers,
+                        files={"file": (os.path.basename(filepath), f)},
+                        data={"srv_send_msg": "true"}, timeout=120)
+            data = r.json()
+            if r.status_code != 200:
+                print(f"[upload err] HTTP {r.status_code} {data.get('err_code','')} {data.get('message','')[:80]}")
+                return None
+            return data.get("file_info")
+        except Exception as e:
+            print("[upload err]", str(e)[:80])
+            return None
+
+    def send_media(self, channel_id, msg_id, file_info, content=""):
+        """发送富媒体消息（msg_type=7），C2C 与频道路径不同"""
+        if not file_info: return False
+        path = f"/v2/users/{channel_id}/messages" if getattr(self, "_c2c", False) else f"/channels/{channel_id}/messages"
+        body = {"msg_type": 7, "media": {"file_info": file_info}}
+        if msg_id and msg_id != "0":
+            body["msg_id"] = msg_id
+        if content:
+            body["content"] = content
+        if getattr(self, "_c2c", False):
+            token = self.get_token()
+            if not token: return False
+            r = requests.post(API_BASE + path,
+                              headers={"Authorization": "QQBot " + token, "Content-Type": "application/json"},
+                              json=body, timeout=30)
+            return r.status_code == 200
+        else:
+            r = self.api("POST", path, body)
+            return bool(r.get("id"))
 
     INTENT_MAP = {
         "admin": "/admin", "sign": "/签到", "me": "/我的",
@@ -61,6 +117,7 @@ class QQBot:
     }
 
     def handle_command(self, content, channel_id, msg_id, user_id):
+        self._c2c = (len(str(channel_id or "")) == 32)  # C2C openid 32位
         text = content.strip()
         d = load_users()
         user = get_user(d, user_id)
@@ -85,8 +142,24 @@ class QQBot:
         elif text in ["/我的", "/me"]:
             vip = "是 ✅" if is_vip(user) else "否"
             bag = get_bag(user)
+            r_p, _ = get_my_rank(user_id, "points")
+            r_d, _ = get_my_rank(user_id, "downloads")
+            r_s, _ = get_my_rank(user_id, "sign")
+            r_p = f"第{r_p}名" if r_p else "未上榜"
+            r_d = f"第{r_d}名" if r_d else "未上榜"
+            r_s = f"第{r_s}名" if r_s else "未上榜"
+            vip_info = f"{vip}（到期：{user.get('vip_until','')}）" if is_vip(user) else vip
             self.reply(channel_id, msg_id,
-                f"💰 积分：{user['points']}\n📥 今日下载：{user['downloads_today']}\n📊 总下载：{user['downloads_total']}\n📝 签到：{user.get('sign_streak',0)}天\n👑 VIP：{vip}\n🎒 券：{bag.get('download_tickets',0)} 卡：{bag.get('day_cards',0)}")
+                f"👤 我的信息\n"
+                f"━━━━━━━━━━━━━━\n"
+                f"🆔 用户ID：{user_id}\n"
+                f"💰 积分：{user['points']}（🏆 {r_p}）\n"
+                f"📥 累计下载：{user['downloads_total']}（📊 {r_d}）\n"
+                f"📝 连续签到：{user.get('sign_streak',0)}天（🔥 {r_s}）\n"
+                f"📥 今日下载：{user['downloads_today']}\n"
+                f"👑 VIP：{vip_info}\n"
+                f"🎒 背包：下载券{bag.get('download_tickets',0)}张 | 日卡{bag.get('day_cards',0)}张\n"
+                f"📅 注册时间：{user.get('created_at','未知')}")
         elif text in ["/排行", "/rank"]:
             ranking = get_ranking("points", 10)
             medals = ["🥇","🥈","🥉"] + [f"{i}." for i in range(4,11)]
@@ -240,10 +313,9 @@ class QQBot:
         elif text == "/下载帮助":
             self.reply(channel_id, msg_id, "📥 下载帮助\n\n直接发送链接即可下载\n\n国内：抖音/快手/B站/小红书（无水印）\n国外：YouTube/TikTok/Twitter等\n\n每次下载消耗5积分（VIP无限）")
 
-        # 管理员命令
-        if is_admin_qq(user_id) and not text.startswith("/"):
-            if text in ["管理面板", "管理", "后台", "控制台"]:
-                text = "/admin"
+        # 管理员命令（仅当文本是管理指令时才拦截，链接不拦截）
+        if is_admin_qq(user_id) and text in ["管理面板", "管理", "后台", "控制台"]:
+            text = "/admin"
         elif text == "/用户列表" and is_admin_qq(user_id):
             users = sorted(d.items(), key=lambda x: x[1].get('points', 0), reverse=True)
             msg = f"👥 用户列表（共{len(users)}人）\n\n"
@@ -328,19 +400,47 @@ class QQBot:
                         self.reply(channel_id, msg_id, f"❌ {msg}\n发送 /签到 获得积分")
                         return
                 save_users(d)
+                print(f"[DL] 开始下载: {urls[0][:50]}")
                 result = download_video(urls[0], user_id)
+                print(f"[DL] 下载结果: success={result.get('success')} type={result.get('type','')} err={result.get('error','')} paths={len(result.get('paths',[]))}")
                 if result["success"]:
                     user["downloads_today"] += 1
                     user["downloads_total"] += 1
                     save_users(d)
                     title = result.get("title", "")
-                    if result["type"] == "image":
-                        n = len(result.get("paths", []))
-                        tip = f"🖼️ 下载完成：{n}张图片" if n > 1 else "🖼️ 下载完成：图片"
-                        self.reply(channel_id, msg_id, tip)
-                    else:
-                        self.reply(channel_id, msg_id, f"✅ 下载完成: {title or '视频'}")
-                    for p in result.get("paths", []):
+                    paths = result.get("paths", [])
+                    if result["type"] == "video":
+                        # 视频：上传并发送（QQ 限制 25MB）
+                        p = paths[0] if paths else None
+                        if p and os.path.exists(p):
+                            sz = os.path.getsize(p)
+                            print(f"[DL] 视频大小: {sz//1024}KB")
+                            if sz > 25 * 1024 * 1024:
+                                self.reply(channel_id, msg_id, f"⚠️ 视频过大（{sz//1024//1024}MB > 25MB），无法发送")
+                            else:
+                                self.reply(channel_id, msg_id, "⏳ 正在上传视频...")
+                                print("[DL] 上传视频中...")
+                                fi = self.upload_file(channel_id, p, 2)
+                                print(f"[DL] 上传结果: {bool(fi)}")
+                                if fi:
+                                    ok = self.send_media(channel_id, msg_id, fi, title or "")
+                                    print(f"[DL] 发送结果: {ok}")
+                                else:
+                                    self.reply(channel_id, msg_id, "❌ 视频上传失败")
+                        else:
+                            self.reply(channel_id, msg_id, "❌ 视频文件不存在")
+                    elif result["type"] == "image":
+                        # 图片：逐张上传发送
+                        sent = 0
+                        for i, p in enumerate(paths[:10]):
+                            if not os.path.exists(p): continue
+                            print(f"[DL] 上传图片{i+1}/{len(paths[:10])}...")
+                            fi = self.upload_file(channel_id, p)
+                            if fi and self.send_media(channel_id, msg_id, fi):
+                                sent += 1
+                        print(f"[DL] 图片发送完成: {sent}张")
+                        self.reply(channel_id, msg_id, f"🖼️ 已发送 {sent} 张图片" if sent else "❌ 图片发送失败")
+                    for p in paths:
                         try: os.remove(p)
                         except: pass
                     if result.get("img_dir"):
@@ -361,6 +461,11 @@ class QQBot:
                 user_id = d.get("author", {}).get("id", "0")
                 msg_id = d.get("id")
                 self.handle_command(content, channel_id, msg_id, user_id)
+            elif t == "C2C_MESSAGE_CREATE":
+                content = d.get("content", "")
+                openid = d.get("author", {}).get("id", "")
+                msg_id = d.get("id")
+                self.handle_command(content, openid, msg_id, openid)
         elif event.get("op") == 10:
             interval = event.get("d", {}).get("heartbeat_interval", 41250)
             threading.Thread(target=self.heartbeat_loop, args=(interval,), daemon=True).start()
@@ -390,7 +495,7 @@ class QQBot:
         print("[ws] 已连接")
         token = self.get_token()
         if token:
-            ws.send(json.dumps({"op": 2, "d": {"token": "QQBot " + token, "intents": 1 | 4097, "shard": [0, 1], "properties": {"os": "linux", "browser": "python", "device": "bot"}}}))
+            ws.send(json.dumps({"op": 2, "d": {"token": "QQBot " + token, "intents": 1 | 4097 | (1 << 25), "shard": [0, 1], "properties": {"os": "linux", "browser": "python", "device": "bot"}}}))
 
     def run(self):
         print("🚀 启动 QQ 机器人...")

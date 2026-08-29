@@ -1,7 +1,8 @@
 #!/bin/bash
 # ============================================
-# aplm123 视频下载机器人 一键安装脚本
-# 用法: bash install.sh
+# aplm123 视频下载机器人 一键部署
+# 用法：bash <(curl -fsSL https://raw.githubusercontent.com/ce11kjw/aplm123-bot/main/install.sh)
+# 或已 clone 后：bash install.sh
 # ============================================
 set -e
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
@@ -9,10 +10,28 @@ ok(){ echo -e "${GREEN}✅ $1${NC}"; }
 warn(){ echo -e "${YELLOW}⚠️  $1${NC}"; }
 err(){ echo -e "${RED}❌ $1${NC}"; exit 1; }
 
-DIR="$(cd "$(dirname "$0")" && pwd)"
-cd "$DIR"
+REPO="https://github.com/ce11kjw/aplm123-bot.git"
+TARGET="/root/aplm123-bot"
 
 if [ "$(id -u)" != "0" ]; then err "请用 root 运行: sudo bash install.sh"; fi
+
+# ---------- 拉取代码（curl 直跑时本地无代码）----------
+if [ ! -f "./bot.py" ]; then
+    echo "=============================================="
+    echo "  从 GitHub 拉取代码..."
+    echo "=============================================="
+    command -v git >/dev/null 2>&1 || { apt-get update -qq 2>/dev/null; apt-get install -y git >/dev/null 2>&1; }
+    if [ -d "$TARGET/.git" ]; then
+        cd "$TARGET" && git pull >/dev/null 2>&1 || true
+    else
+        git clone "$REPO" "$TARGET" || err "clone 失败"
+    fi
+    cd "$TARGET"
+fi
+
+DIR="$(cd "$(dirname "$0")" && pwd)"
+[ -f "$DIR/bot.py" ] || DIR="$TARGET"
+cd "$DIR"
 
 echo "=============================================="
 echo "  aplm123 视频下载机器人 安装向导"

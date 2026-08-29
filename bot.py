@@ -116,12 +116,30 @@ async def cmd_me(update: Update, ctx: CallbackContext):
     user = get_user(d, update.effective_user.id)
     update_user_info(user, update)
     vip = "是 ✅" if is_vip(user) else "否"
+    bag = get_bag(user)
+    r_p, _ = get_my_rank(update.effective_user.id, "points")
+    r_d, _ = get_my_rank(update.effective_user.id, "downloads")
+    r_s, _ = get_my_rank(update.effective_user.id, "sign")
+    r_p = f"第{r_p}名" if r_p else "未上榜"
+    r_d = f"第{r_d}名" if r_d else "未上榜"
+    r_s = f"第{r_s}名" if r_s else "未上榜"
+    vip_info = f"{vip}（到期：{user.get('vip_until','')}）" if is_vip(user) else vip
+    name = user.get("first_name", "") or ""
+    uname = f"@{user.get('username')}" if user.get("username") else "-"
     await update.message.reply_text(
-        f"💰 我的积分：{user.get('points',0)}\n"
+        f"👤 我的信息\n"
+        f"━━━━━━━━━━━━━━\n"
+        f"🆔 用户ID：`{update.effective_user.id}`\n"
+        f"👤 昵称：{name}\n"
+        f"🌐 用户名：{uname}\n"
+        f"━━━━━━━━━━━━━━\n"
+        f"💰 积分：{user.get('points',0)}（🏆 {r_p}）\n"
+        f"📥 累计下载：{user.get('downloads_total',0)}（📊 {r_d}）\n"
+        f"📝 连续签到：{user.get('sign_streak',0)}天（🔥 {r_s}）\n"
         f"📥 今日下载：{user.get('downloads_today',0)}\n"
-        f"📊 累计下载：{user.get('downloads_total',0)}\n"
-        f"📝 连续签到：{user.get('sign_streak',0)}天\n"
-        f"👑 VIP会员：{vip}")
+        f"👑 VIP：{vip_info}\n"
+        f"🎒 背包：下载券{bag.get('download_tickets',0)}张 | 日卡{bag.get('day_cards',0)}张\n"
+        f"📅 注册时间：{user.get('created_at','未知')}", parse_mode="Markdown")
 
 async def cmd_rank(update: Update, ctx: CallbackContext):
     ranking = get_ranking("points", 10)
@@ -570,6 +588,35 @@ async def handle_admin_input(update: Update, ctx: CallbackContext, text, state):
         clear_admin_state(uid)
         await update.message.reply_text(f"📦 全员发放完成\n\n发放数量：{amount}积分\n发放人数：{count}人")
 
+    elif step == 1 and action == "cookie_set":
+        raw = text.strip()
+        if "=" not in raw:
+            await update.message.reply_text("❌ 格式不对，请粘贴形如 key=value; key2=value2 的 Cookie 字符串")
+            return
+        lines = ["# Netscape HTTP Cookie File"]
+        cnt = 0
+        for part in raw.split(";"):
+            part = part.strip()
+            if "=" not in part:
+                continue
+            k, v = part.split("=", 1)
+            k, v = k.strip(), v.strip()
+            if not k:
+                continue
+            lines.append(f".tiktok.com\tTRUE\t/\tTRUE\t2000000000\t{k}\t{v}")
+            cnt += 1
+        try:
+            ckf = "/root/aplm123-bot/cookies.txt"
+            with open(ckf, "w") as f:
+                f.write("\n".join(lines) + "\n")
+            os.chmod(ckf, 0o600)
+            has_sess = "sessionid" in raw
+            clear_admin_state(uid)
+            await update.message.reply_text(f"✅ Cookie 已保存\n\n条目数：{cnt}\n登录态：{'✅ 含 sessionid' if has_sess else '⚠️ 无 sessionid（可能拿不到高清）'}\n\n现在 TikTok 下载会带上此 Cookie")
+        except Exception as e:
+            clear_admin_state(uid)
+            await update.message.reply_text(f"❌ 保存失败：{str(e)[:80]}")
+
 # ===== 回调按钮 =====
 async def callback(update: Update, ctx: CallbackContext):
     q = update.callback_query
@@ -585,7 +632,26 @@ async def callback(update: Update, ctx: CallbackContext):
 
     if data == "points":
         vip = "是 ✅" if is_vip(user) else "否"
-        await q.edit_message_text(f"💰 我的积分：{user.get('points',0)}\n📥 今日下载：{user.get('downloads_today',0)}\n👑 VIP：{vip}")
+        bag = get_bag(user)
+        r_p, _ = get_my_rank(q.from_user.id, "points")
+        r_d, _ = get_my_rank(q.from_user.id, "downloads")
+        r_s, _ = get_my_rank(q.from_user.id, "sign")
+        r_p = f"第{r_p}名" if r_p else "未上榜"
+        r_d = f"第{r_d}名" if r_d else "未上榜"
+        r_s = f"第{r_s}名" if r_s else "未上榜"
+        vip_info = f"{vip}（到期：{user.get('vip_until','')}）" if is_vip(user) else vip
+        kb = [[InlineKeyboardButton("返回", callback_data="back")]]
+        await q.edit_message_text(
+            f"👤 我的信息\n"
+            f"━━━━━━━━━━━━━━\n"
+            f"🆔 用户ID：{q.from_user.id}\n"
+            f"💰 积分：{user.get('points',0)}（🏆 {r_p}）\n"
+            f"📥 累计下载：{user.get('downloads_total',0)}（📊 {r_d}）\n"
+            f"📝 连续签到：{user.get('sign_streak',0)}天（🔥 {r_s}）\n"
+            f"📥 今日下载：{user.get('downloads_today',0)}\n"
+            f"👑 VIP：{vip_info}\n"
+            f"🎒 背包：下载券{bag.get('download_tickets',0)}张 | 日卡{bag.get('day_cards',0)}张\n"
+            f"📅 注册时间：{user.get('created_at','未知')}", reply_markup=InlineKeyboardMarkup(kb))
     elif data == "sign":
         ok, msg = do_sign(user)
         if ok: save_users(d)
@@ -725,8 +791,35 @@ async def callback(update: Update, ctx: CallbackContext):
         kb = [[InlineKeyboardButton("返回", callback_data="admin_back")]]
         await q.edit_message_text(text, reply_markup=InlineKeyboardMarkup(kb))
     elif data == "admin_sys" and is_admin(q.from_user.id):
-        text = "⚙️ 系统管理命令\n\n/status - 系统状态"
-        kb = [[InlineKeyboardButton("返回", callback_data="admin_back")]]
+        kb = [
+            [InlineKeyboardButton("🍪 Cookie状态", callback_data="cookie_status"),
+             InlineKeyboardButton("🔑 设置Cookie", callback_data="cookie_set")],
+            [InlineKeyboardButton("🗑 清除Cookie", callback_data="cookie_clear")],
+            [InlineKeyboardButton("返回", callback_data="admin_back")]
+        ]
+        await q.edit_message_text("⚙️ 系统管理\n\n/status - 系统状态\n\n🍪 TikTok Cookie（用于解锁高清/图集）：", reply_markup=InlineKeyboardMarkup(kb))
+    elif data == "cookie_status" and is_admin(q.from_user.id):
+        ck = "/root/aplm123-bot/cookies.txt"
+        if os.path.exists(ck) and os.path.getsize(ck) > 20:
+            n = sum(1 for l in open(ck) if l.strip() and not l.startswith("#"))
+            has_sess = "sessionid" in open(ck).read()
+            text = f"🍪 Cookie 已配置\n\n条目数：{n}\n登录态：{'✅ 含 sessionid' if has_sess else '⚠️ 无 sessionid'}"
+        else:
+            text = "🍪 Cookie 未配置\n\n当前用免登录解析（画质受限）\n设置 Cookie 可解锁高清与部分图集"
+        kb = [[InlineKeyboardButton("返回", callback_data="admin_sys")]]
+        await q.edit_message_text(text, reply_markup=InlineKeyboardMarkup(kb))
+    elif data == "cookie_set" and is_admin(q.from_user.id):
+        set_admin_state(q.from_user.id, "cookie_set", 1, {})
+        await q.edit_message_text("🔑 设置 TikTok Cookie\n\n请直接粘贴浏览器导出的 Cookie 字符串\n（形如 key1=value1; key2=value2 ...）\n\n建议用小号，发送 /cancel 取消")
+    elif data == "cookie_clear" and is_admin(q.from_user.id):
+        ck = "/root/aplm123-bot/cookies.txt"
+        try:
+            if os.path.exists(ck):
+                os.remove(ck)
+            text = "🗑 Cookie 已清除\n\n回到免登录解析模式"
+        except Exception as e:
+            text = f"❌ 清除失败：{str(e)[:60]}"
+        kb = [[InlineKeyboardButton("返回", callback_data="admin_sys")]]
         await q.edit_message_text(text, reply_markup=InlineKeyboardMarkup(kb))
     elif data == "points_add" and is_admin(q.from_user.id):
         set_admin_state(q.from_user.id, "points_add", 1, {})
@@ -891,7 +984,9 @@ async def handle_msg(update: Update, ctx: CallbackContext):
             return
         save_users(d)
         msg_obj = await update.message.reply_text("⏳ 正在下载...")
+        print(f"[TG] 下载开始: {urls[0][:50]}")
         result = await download(urls[0], update.effective_user.id)
+        print(f"[TG] 结果: success={result['success']} type={result.get('type','')} paths={len(result.get('paths',[]))} err={result.get('error','')}")
         if result["success"]:
             user["downloads_today"] = user.get("downloads_today", 0) + 1
             user["downloads_total"] = user.get("downloads_total", 0) + 1
@@ -907,8 +1002,6 @@ async def handle_msg(update: Update, ctx: CallbackContext):
                 else:
                     media = [InputMediaPhoto(open(p, "rb")) for p in paths[:10]]
                     await update.message.reply_media_group(media)
-                    for m in media:
-                        m.media.close()
                 await msg_obj.delete()
                 for p in paths:
                     try: os.remove(p)
@@ -916,7 +1009,13 @@ async def handle_msg(update: Update, ctx: CallbackContext):
                 if result.get("img_dir"):
                     shutil.rmtree(result["img_dir"], ignore_errors=True)
             except Exception as e:
+                print(f"[TG] 发送失败: {e}")
                 await msg_obj.edit_text(f"❌ 发送失败: {str(e)[:80]}")
+                for p in paths:
+                    try: os.remove(p)
+                    except: pass
+                if result.get("img_dir"):
+                    shutil.rmtree(result["img_dir"], ignore_errors=True)
         else:
             await msg_obj.edit_text(f"❌ {result.get('error', '下载失败')}")
 
