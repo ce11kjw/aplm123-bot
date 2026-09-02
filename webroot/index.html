@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<script type="module">
-import { defineMorphIcon } from "https://cdn.jsdelivr.net/npm/morphicons@latest/dist/element.js";
-defineMorphIcon();
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -127,7 +123,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
 <div class="top"><div class="in">
   <div class="brand"><span class="dot"></span><b>aplm123</b></div>
   <div class="ptag" x-show="me" @click="tab='profile'">
-    <morph-icon data-tab="profile" class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 7v10M9 10h4a2 2 0 010 4H9" icon="M12 7v10M9 10h4a2 2 0 010 4H9" icon="M12 7v10M9 10h4a2 2 0 010 4H9 M3.0 12.0 C3.0 7.0293 7.0293 3.0 12.0 3.0 C16.9707 3.0 21.0 7.0293 21.0 12.0 C21.0 16.9707 16.9707 21.0 12.0 21.0 C7.0293 21.0 3.0 16.9707 3.0 12.0 Z"></morph-icon>
+    <morph-icon data-tab="profile" class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 7v10M9 10h4a2 2 0 010 4H9" icon="M12 7v10M9 10h4a2 2 0 010 4H9"></morph-icon>
     <span x-text="me?.points||0"></span>
   </div>
 </div></div>
@@ -141,16 +137,16 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
     <h1>万能<span class="g">视频·图片</span><br>下载器</h1>
     <p>TikTok / YouTube / 抖音 / B站 / 小红书 全平台无水印下载</p>
     <button class="btn" @click="tab='dl'">
-      <morph-icon data-tab="dl" class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14" icon="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14" icon="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14"></morph-icon>
+      <morph-icon data-tab="dl" class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14" icon="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14"></morph-icon>
       进入下载
     </button>
   </div>
-  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M4 6h16v12H4z M10 9l5 3-5 3z" icon="M4 6h16v12H4z M10 9l5 3-5 3z" icon="M4 6h16v12H4z M10 9l5 3-5 3z"></morph-icon></div><div><h4>全平台视频</h4><p>TikTok 自研无水印，YouTube/抖音/B站/快手 等 1752+ 站点</p></div></div>
-  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M21 15l-5-5L5 21" icon="M21 15l-5-5L5 21" icon="M21 15l-5-5L5 21 M3 3 h18 a2 2 0 0 1 -2 2 v18 a2 2 0 0 1 2 -2 h-18 a2 2 0 0 1 2 2 v-18 a2 2 0 0 1 -2 2 Z M7.0 8.5 C7.0 7.67155 7.67155 7.0 8.5 7.0 C9.32845 7.0 10.0 7.67155 10.0 8.5 C10.0 9.32845 9.32845 10.0 8.5 10.0 C7.67155 10.0 7.0 9.32845 7.0 8.5 Z"></morph-icon></div><div><h4>图片图集</h4><p>小红书/Pinterest/Instagram 多图集一键打包，4816 站点</p></div></div>
-  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" icon="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" icon="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></morph-icon></div><div><h4>签到积分</h4><p>每日签到得积分，连续 7 天额外奖励，积分兑换下载券与 VIP</p></div></div>
-  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z" icon="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z" icon="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z"></morph-icon></div><div><h4>抽奖 · VIP</h4><p>单抽/十连赢 VIP、日卡、积分；VIP 无限下载</p></div></div>
+  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M4 6h16v12H4z M10 9l5 3-5 3z" icon="M4 6h16v12H4z M10 9l5 3-5 3z"></morph-icon></div><div><h4>全平台视频</h4><p>TikTok 自研无水印，YouTube/抖音/B站/快手 等 1752+ 站点</p></div></div>
+  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M21 15l-5-5L5 21" icon="M21 15l-5-5L5 21"></morph-icon></div><div><h4>图片图集</h4><p>小红书/Pinterest/Instagram 多图集一键打包，4816 站点</p></div></div>
+  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" icon="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></morph-icon></div><div><h4>签到积分</h4><p>每日签到得积分，连续 7 天额外奖励，积分兑换下载券与 VIP</p></div></div>
+  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z" icon="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z"></morph-icon></div><div><h4>抽奖 · VIP</h4><p>单抽/十连赢 VIP、日卡、积分；VIP 无限下载</p></div></div>
   <div class="card">
-    <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M2 12h20M12 2a15 15 0 010 20a15 15 0 010-20" icon="M2 12h20M12 2a15 15 0 010 20a15 15 0 010-20" icon="M2 12h20M12 2a15 15 0 010 20a15 15 0 010-20 M2.0 12.0 C2.0 6.477 6.477 2.0 12.0 2.0 C17.523 2.0 22.0 6.477 22.0 12.0 C22.0 17.523 17.523 22.0 12.0 22.0 C6.477 22.0 2.0 17.523 2.0 12.0 Z"></morph-icon>支持平台</h3>
+    <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M2 12h20M12 2a15 15 0 010 20a15 15 0 010-20" icon="M2 12h20M12 2a15 15 0 010 20a15 15 0 010-20"></morph-icon>支持平台</h3>
     <div class="chip"><template x-for="p in platforms"><span x-text="p"></span></template></div>
   </div>
 </div>
@@ -179,7 +175,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
   <!-- 已登录：下载置顶 -->
   <div x-show="me">
     <div class="card">
-      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14" icon="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14" icon="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14"></morph-icon>视频/图片下载</h3>
+      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14" icon="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14"></morph-icon>视频/图片下载</h3>
       <input x-model="dlUrl" placeholder="粘贴链接 · TikTok/抖音/B站/YouTube..." @keyup.enter="doDownload()">
       <button class="btn" style="margin-top:12px" @click="doDownload()" :disabled="loading">
         <span x-show="loading" class="spin"></span>
@@ -195,7 +191,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
       </div>
     </div>
     <div class="card">
-      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z" icon="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z" icon="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z"></morph-icon>幸运抽奖</h3>
+      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z" icon="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z"></morph-icon>幸运抽奖</h3>
       <div class="g2">
         <button class="btn sm" @click="lottery('1')">单抽 · 50分</button>
         <button class="btn sm" @click="lottery('10')">十连 · 450分</button>
@@ -203,7 +199,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
       <p class="muted" style="margin-top:12px;min-height:20px" x-text="lotteryOut"></p>
     </div>
     <div class="card">
-      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 7v5l3 2" icon="M12 7v5l3 2" icon="M12 7v5l3 2 M3.0 12.0 C3.0 7.0293 7.0293 3.0 12.0 3.0 C16.9707 3.0 21.0 7.0293 21.0 12.0 C21.0 16.9707 16.9707 21.0 12.0 21.0 C7.0293 21.0 3.0 16.9707 3.0 12.0 Z"></morph-icon>下载历史</h3>
+      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 7v5l3 2" icon="M12 7v5l3 2"></morph-icon>下载历史</h3>
       <div class="ulist">
         <template x-for="h in history"><div class="muted" style="border-bottom:1px solid var(--line);padding:7px 0" x-text="h.time+' · '+(h.title||h.url).slice(0,34)"></div></template>
         <p class="muted" x-show="!history.length">暂无记录，下载后自动出现</p>
@@ -263,7 +259,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
     </div>
     <!-- 签到 / 商城 -->
     <div class="card">
-      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" icon="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" icon="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></morph-icon>每日签到 & 商城</h3>
+      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" icon="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></morph-icon>每日签到 & 商城</h3>
       <button class="btn" @click="sign()">📝 每日签到 +10 积分</button>
       <div class="g2" style="margin-top:11px">
         <button class="btn sec sm" @click="buy('ticket')">🎫 下载券×10 · 80</button>
@@ -273,7 +269,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
     </div>
     <!-- 绑定 TG -->
     <div class="card">
-      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1 M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1" icon="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1 M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1" icon="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1 M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"></morph-icon>绑定 Telegram</h3>
+      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1 M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1" icon="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1 M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"></morph-icon>绑定 Telegram</h3>
       <p class="muted" x-show="me?.bound_tg">✅ 已绑定（ID <span x-text="me?.uid"></span>），与机器人数据共享</p>
       <template x-if="!me?.bound_tg">
         <div>
@@ -294,7 +290,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
     </div>
     <!-- 管理入口 -->
     <div class="card" x-show="me?.is_admin">
-      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z" icon="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z" icon="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"></morph-icon>管理后台</h3>
+      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z" icon="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"></morph-icon>管理后台</h3>
       <button class="btn sec" @click="tab='admin';loadOv();loadUsers()">进入管理后台</button>
     </div>
   </div>
@@ -371,7 +367,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
 
 <!-- 底部导航 -->
 <div class="botnav">
-  <a :class="tab=='home'&&'on'" @click="tab='home'"><morph-icon data-tab="home" icon="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" spring="snappy"></morph-icon>首页</a>
+  <a :class="tab=='home'&&'on'" @click="tab='home'"><morph-icon icon="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" data-tab="home" spring="snappy"></morph-icon>首页</a>
   <a :class="(tab=='dl')&&'on'" @click="tab='dl'"><morph-icon icon="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" spring="snappy"></morph-icon>下载</a>
   <a :class="tab=='board'&&'on'" @click="tab='board';loadBoard()"><morph-icon icon="M3 3v16a2 2 0 0 0 2 2h16M18 17V9M13 17V5M8 17v-3" spring="snappy"></morph-icon>数据</a>
   <a :class="(tab=='profile'||tab=='admin')&&'on'" @click="tab='profile'"><morph-icon icon="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2M12 7a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" spring="snappy"></morph-icon>我的</a>
@@ -379,90 +375,6 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
 
 <div class="toast" x-show="toast" x-text="toast" x-transition></div>
 
-<script>
-function app(){return{
-  tab:'home', loading:false, toast:'',
-  platforms:['TikTok','YouTube','抖音','快手','B站','小红书','微博','西瓜','皮皮虾','Twitter/X','Instagram','Facebook','Reddit','Pinterest','淘宝','京东'],
-  authMode:'login', auUser:'', auPass:'',
-  bindStep:0, bindTgId:'', bindCode:'',
-  me:null, token:localStorage.getItem('tok')||'',
-  dlUrl:'', dlResult:null, lotteryOut:'', history:[],
-  board:null,
-  ov:null, users:{users:[],total:0}, userQ:'', a:{uid:'',amount:'',text:''}, ckRaw:'',
 
-  init(){ if(this.token)this.loadMe(); this.loadBoard(); },
-  tos(m){ this.toast=m; setTimeout(()=>this.toast='',2500); },
-  async post(u,data){ const fd=new FormData(); for(let k in data)fd.append(k,data[k]);
-    const h={}; if(this.token)h['X-Session']=this.token;
-    const r=await fetch(u,{method:'POST',body:fd,headers:h}); return r.json(); },
-  async get(u){ const h={}; if(this.token)h['X-Session']=this.token;
-    const r=await fetch(u,{headers:h}); return r.json(); },
-
-  async doAuth(){ if(!this.auUser||!this.auPass){this.tos('请填写用户名和密码');return} this.loading=true;
-    const r=await this.post(this.authMode=='reg'?'/api/register':'/api/login',{username:this.auUser,password:this.auPass}); this.loading=false;
-    if(r.ok){ this.token=r.token; localStorage.setItem('tok',r.token); await this.loadMe(); this.loadHistory(); this.tos(r.msg||'成功'); this.auPass=''; }
-    else this.tos(r.msg); },
-  async loadMe(){ try{ this.me=await this.get('/api/me'); }catch(e){ this.token='';localStorage.removeItem('tok'); } },
-  logout(){ this.token='';this.me=null;localStorage.removeItem('tok'); this.tab='dl'; },
-
-  async sign(){ const r=await this.post('/api/sign',{}); this.tos(r.msg); if(r.ok)this.loadMe(); },
-  async doDownload(){ if(!this.dlUrl){this.tos('请输入链接');return} this.loading=true;this.dlResult=null;
-    const r=await this.post('/api/download',{url:this.dlUrl}); this.loading=false;
-    if(r.ok){ this.dlResult=r; this.loadMe(); this.loadHistory(); this.tos('下载成功'); } else this.tos(r.msg); },
-  async buy(item){ const r=await this.post('/api/shop/buy',{item}); this.tos(r.msg); if(r.ok)this.loadMe(); },
-  async lottery(mode){ const r=await this.post('/api/lottery',{mode});
-    if(r.ok){ this.lotteryOut='🎉 '+r.results.join('  ')+'  · 剩 '+r.points+' 分'; this.loadMe(); } else this.tos(r.msg); },
-  async loadHistory(){ if(!this.token)return; const r=await this.get('/api/history'); this.history=r.history||[]; },
-
-  async loadBoard(){ this.board=await this.get('/api/stats'); this.$nextTick(()=>this.charts()); },
-  charts(){ if(!this.board)return; ['c1','c2'].forEach((id,i)=>{ const el=document.getElementById(id); if(!el)return; if(el._c)el._c.destroy();
-    const src=i==0?this.board.top_points:this.board.top_downloads, key=i==0?'points':'downloads';
-    el._c=new Chart(el,{type:'bar',data:{labels:src.map(r=>r.name.slice(0,7)),datasets:[{data:src.map(r=>r[key]),backgroundColor:i==0?'#4f8cff':'#22d3ee',borderRadius:6}]},
-      options:{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#8595b3',font:{size:10}},grid:{display:false}},y:{ticks:{color:'#8595b3'},grid:{color:'#232f48'}}}}}); }); },
-
-  async bindReq(){ if(!this.bindTgId){this.tos('请输入 TG ID');return} this.loading=true;
-    const r=await this.post('/api/bind/tg/request',{tg_uid:this.bindTgId}); this.loading=false; this.tos(r.msg); if(r.ok)this.bindStep=2; },
-  async bindVerify(){ this.loading=true; const r=await this.post('/api/bind/tg/verify',{code:this.bindCode}); this.loading=false;
-    this.tos(r.msg); if(r.ok){ this.bindStep=0;this.bindCode='';this.bindTgId=''; this.loadMe(); } },
-  async unbindTg(){ const r=await this.post('/api/bind/tg/unbind',{}); this.tos(r.msg); if(r.ok)this.loadMe(); },
-
-  async loadOv(){ try{ this.ov=await this.get('/api/admin/overview'); }catch(e){} },
-  async loadUsers(){ this.users=await this.get('/api/admin/users?q='+encodeURIComponent(this.userQ)); },
-  async act(a){ const r=await this.post('/api/admin/action',{act:a,uid:this.a.uid,amount:this.a.amount,text:this.a.text}); this.tos(r.msg); if(r.ok){this.loadOv();this.loadUsers();} },
-  async delUser(){ if(!this.a.uid){this.tos('请先选择用户');return} if(!confirm('确认删除用户 '+this.a.uid+' ？此操作不可恢复')){return}
-    const r=await this.post('/api/admin/action',{act:'delete',uid:this.a.uid}); this.tos(r.msg); if(r.ok){this.a.uid='';this.loadOv();this.loadUsers();} },
-  async ckSet(){ if(!this.ckRaw){this.tos('请粘贴Cookie');return} const r=await this.post('/api/admin/cookie',{act:'set',raw:this.ckRaw}); this.tos(r.msg); if(r.ok){this.ckRaw='';this.loadOv();} },
-  async ckClear(){ const r=await this.post('/api/admin/cookie',{act:'clear'}); this.tos(r.msg); this.loadOv(); },
-}}
-</script>
-
-<script type="module">
-// === Morphicons 集成 ===
-import { defineMorphIcon } from '/assets/morph-element.js';
-defineMorphIcon();
-
-// 底部导航点击：图标 morph 到 Check 再弹回
-const wireNav = () => {
-  document.querySelectorAll('.botnav a').forEach(a => {
-    if (a.__mw) return; a.__mw = true;
-    const mi = a.querySelector('morph-icon');
-    if (!mi) return;
-    a.addEventListener('click', () => {
-      const base = mi.getAttribute('data-base');
-      if (!base) return;
-      mi.setAttribute('icon', 'M5 13l4 4L19 7'); // Check
-      setTimeout(() => mi.setAttribute('icon', base), 700);
-    });
-  });
-};
-wireNav();
-new MutationObserver(wireNav).observe(document.body, { childList: true, subtree: true });
-
-// 注册全局 morphTo 辅助
-window.morphTo = (sel, d) => {
-  const el = document.querySelector(sel);
-  if (el && el.setAttribute) el.setAttribute('icon', d);
-};
-</script>
 </body>
 </html>
