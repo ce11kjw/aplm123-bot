@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#070b14">
@@ -12,20 +9,20 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 <style>
 :root{
-  --bg:#070b14;--bg2:#0d1220;--card:#121a2c;--card2:#182238;--line:rgba(255,255,255,.08);
+  --bg:#070b14;--bg2:#0d1220;--card:#121a2c;--card2:#182238;--line:#232f48;
   --txt:#eaf1fb;--sub:#8595b3;--dim:#5c6a86;
-  --ac:#3b82f6;--ac2:#06b6d4;--vio:#6366f1;
+  --ac:#4f8cff;--ac2:#22d3ee;--vio:#8b5cf6;
   --ok:#22c55e;--warn:#f59e0b;--err:#ef4444;
   --glow:0 0 36px rgba(79,140,255,.28);
   --nav-h:64px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--txt);font-family:"Geist",Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom))}
+body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom))}
 body::before{content:"";position:fixed;inset:0;background:
-  radial-gradient(520px circle at 8% 6%,rgba(59,130,246,.10),transparent 44%),
-  radial-gradient(580px circle at 92% 26%,rgba(6,182,212,.08),transparent 44%),
-  radial-gradient(440px circle at 52% 94%,rgba(99,102,241,.08),transparent 44%);
+  radial-gradient(500px circle at 12% 8%,rgba(79,140,255,.12),transparent 42%),
+  radial-gradient(600px circle at 88% 22%,rgba(34,211,238,.09),transparent 42%),
+  radial-gradient(460px circle at 50% 92%,rgba(139,92,246,.09),transparent 42%);
   z-index:-1;pointer-events:none}
 a{color:var(--ac2);text-decoration:none}
 svg{stroke:currentColor;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -38,48 +35,41 @@ svg{stroke:currentColor;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-l
 .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--ac2);box-shadow:0 0 10px var(--ac2);animation:pulse 2s infinite}
 @keyframes pulse{50%{opacity:.35}}
 .brand b{background:linear-gradient(90deg,var(--ac),var(--ac2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.ptag{display:inline-flex;align-items:center;gap:5px;background:var(--card2);border:1px solid var(--line);padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700;color:var(--ac2);letter-spacing:.03em;border:1px solid rgba(6,182,212,.25)}
+.ptag{display:inline-flex;align-items:center;gap:5px;background:var(--card2);border:1px solid var(--line);padding:6px 12px;border-radius:20px;font-size:13px;font-weight:700;color:var(--ac2)}
 .ptag svg{width:15px;height:15px}
-
-
-morph-icon{display:inline-flex;width:22px;height:22px;flex-shrink:0}
-morph-icon svg{width:100%;height:100%}
-.botnav a morph-icon{width:23px;height:23px}
-.feat .fi morph-icon{width:22px;height:22px}
-.card h3 morph-icon{width:18px;height:18px;color:var(--ac2)}
 
 /* 底部导航 */
 .botnav{position:fixed;left:0;right:0;bottom:0;z-index:50;height:calc(var(--nav-h) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(10,14,26,.94);backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex}
-.botnav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--dim);cursor:pointer;font-size:11px;font-weight:600;transition:all .4s cubic-bezier(.32,.72,0,1);position:relative}
+.botnav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--dim);cursor:pointer;font-size:11px;font-weight:600;transition:.15s;position:relative}
 .botnav a svg{width:23px;height:23px;transition:.15s}
 .botnav a.on{color:var(--ac2)}
 .botnav a.on svg{stroke:var(--ac2);filter:drop-shadow(0 0 6px rgba(34,211,238,.5))}
-.botnav a.on::before{content:"";position:absolute;top:-1px;width:24px;height:3px;border-radius:0 0 6px 6px;background:linear-gradient(90deg,var(--ac),var(--ac2));box-shadow:0 0 10px var(--ac2)}
+.botnav a.on::before{content:"";position:absolute;top:0;width:28px;height:3px;border-radius:0 0 4px 4px;background:var(--ac2)}
 
 /* 通用 */
 .view{padding-top:18px;animation:fade .25s ease}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.card{background:linear-gradient(160deg,var(--card),var(--bg2));border-radius:22px;padding:20px;margin-bottom:16px;background:linear-gradient(168deg,rgba(255,255,255,.04),transparent) fixed,linear-gradient(180deg,var(--card),var(--bg2));border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 8px 32px rgba(0,0,0,.35)}
+.card{background:linear-gradient(160deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}
 .card h3{font-size:15px;margin-bottom:14px;display:flex;align-items:center;gap:8px;font-weight:700}
 .card h3 svg{width:18px;height:18px;color:var(--ac2)}
 .sec-t{font-size:23px;font-weight:800;margin-bottom:4px;letter-spacing:-.5px;padding:0 2px}
 .sec-d{color:var(--sub);margin-bottom:18px;font-size:14px;padding:0 2px}
-.btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:15px;border-radius:999px;font-weight:700;cursor:pointer;border:none;font-size:15px;padding:16px 28px;transition:all .4s cubic-bezier(.32,.72,0,1);background:linear-gradient(90deg,var(--ac),var(--ac2));color:#fff;box-shadow:0 6px 24px rgba(59,130,246,.32),inset 0 1px 0 rgba(255,255,255,.2);position:relative;overflow:hidden}
-.btn:active{transform:scale(.96)}
+.btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:15px;border-radius:13px;font-weight:700;cursor:pointer;border:none;font-size:16px;transition:.15s;background:linear-gradient(90deg,var(--ac),var(--ac2));color:#fff;box-shadow:0 4px 18px rgba(79,140,255,.32)}
+.btn:active{transform:scale(.97)}
 .btn:disabled{opacity:.55;box-shadow:none}
-.btn.sec{background:var(--card2);color:var(--txt);border:1px solid rgba(255,255,255,.1);box-shadow:none}
-.btn.sm{width:auto;padding:11px 22px;font-size:14px;border-radius:999px;box-shadow:none}
+.btn.sec{background:var(--card2);color:var(--txt);border:1px solid var(--line);box-shadow:none}
+.btn.sm{width:auto;padding:10px 16px;font-size:14px;border-radius:11px;box-shadow:none}
 .btn svg{width:19px;height:19px}
-input,textarea{width:100%;background:var(--bg);border:1.5px solid var(--line);border-radius:14px;padding:15px 18px;color:var(--txt);font-size:15px;font-family:inherit;transition:all .3s cubic-bezier(.32,.72,0,1);background:rgba(0,0,0,.3)}
-input:focus,textarea:focus{outline:none;border-color:var(--ac2);box-shadow:0 0 0 3px rgba(6,182,212,.12)}
+input,textarea{width:100%;background:var(--bg);border:1.5px solid var(--line);border-radius:13px;padding:15px;color:var(--txt);font-size:16px;font-family:inherit;transition:.15s}
+input:focus,textarea:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px rgba(79,140,255,.14)}
 label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-weight:500}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.stat{background:linear-gradient(150deg,var(--card2),var(--card));border-radius:16px;padding:18px 14px;text-align:center;background:linear-gradient(168deg,rgba(255,255,255,.03),transparent) fixed,linear-gradient(180deg,var(--card2),var(--card));border:1px solid rgba(255,255,255,.07);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 4px 20px rgba(0,0,0,.3)}
+.stat{background:linear-gradient(150deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:14px;padding:16px 14px;text-align:center}
 .stat .n{font-size:24px;font-weight:800;background:linear-gradient(90deg,var(--ac),var(--ac2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.15}
 .stat .l{color:var(--sub);font-size:12px;margin-top:4px}
 .muted{color:var(--sub);font-size:13px}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.pill{padding:11px 16px;border-radius:11px;background:var(--card2);border:1px solid var(--line);cursor:pointer;font-size:14px;color:var(--sub);transition:all .4s cubic-bezier(.32,.72,0,1);font-weight:600}
+.pill{padding:11px 16px;border-radius:11px;background:var(--card2);border:1px solid var(--line);cursor:pointer;font-size:14px;color:var(--sub);transition:.15s;font-weight:600}
 .pill:active{transform:scale(.96)}
 .pill.on{background:var(--ac);color:#fff;border-color:var(--ac)}
 .dlprev img,.dlprev video{width:100%;border-radius:14px;margin-top:12px;border:1px solid var(--line)}
@@ -88,14 +78,14 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
 .hero h1{font-size:clamp(29px,8vw,42px);font-weight:800;line-height:1.15;margin-bottom:14px;letter-spacing:-1px}
 .hero h1 .g{background:linear-gradient(90deg,var(--ac),var(--ac2) 60%,var(--vio));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .hero p{color:var(--sub);font-size:15.5px;margin-bottom:24px}
-.feat{display:flex;gap:16px;align-items:flex-start;background:linear-gradient(168deg,rgba(255,255,255,.04),transparent) fixed,linear-gradient(180deg,var(--card),var(--bg2));border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:18px;margin-bottom:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
-.feat .fi{flex-shrink:0;width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,rgba(59,130,246,.2),rgba(6,182,212,.15));display:flex;align-items:center;justify-content:center;color:var(--ac2);border:1px solid rgba(6,182,212,.15)}
+.feat{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(160deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:11px}
+.feat .fi{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--card2);display:flex;align-items:center;justify-content:center;color:var(--ac2)}
 .feat .fi svg{width:22px;height:22px}
 .feat h4{font-size:15px;margin-bottom:3px}
 .feat p{color:var(--sub);font-size:13px;line-height:1.45}
 .chip{display:flex;gap:8px;flex-wrap:wrap}
 .chip span{background:var(--card2);border:1px solid var(--line);padding:6px 13px;border-radius:20px;font-size:13px;color:var(--sub)}
-.toast{position:fixed;bottom:calc(var(--nav-h) + 18px);left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--ac);padding:13px 22px;border-radius:999px;z-index:100;font-size:13.5px;box-shadow:0 12px 40px rgba(0,0,0,.5);font-weight:600;max-width:90vw;text-align:center;backdrop-filter:blur(12px)}
+.toast{position:fixed;bottom:calc(var(--nav-h) + 18px);left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--ac);padding:13px 22px;border-radius:13px;z-index:100;font-size:14px;box-shadow:0 10px 40px rgba(0,0,0,.5),var(--glow);font-weight:600;max-width:90vw;text-align:center}
 .authtab{display:flex;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:16px}
 .authtab div{flex:1;text-align:center;padding:11px;border-radius:9px;cursor:pointer;font-size:15px;font-weight:600;color:var(--sub);transition:.15s}
 .authtab div.on{background:var(--ac);color:#fff}
@@ -109,7 +99,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
 .tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10.5px;font-weight:700}
 .tag.vip{background:rgba(245,158,11,.18);color:var(--warn)}
 .tag.ban{background:rgba(239,68,68,.18);color:var(--err)}
-::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
 @media(min-width:641px){
   body{padding-bottom:0}
   .botnav{display:none}
@@ -123,7 +113,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
 <div class="top"><div class="in">
   <div class="brand"><span class="dot"></span><b>aplm123</b></div>
   <div class="ptag" x-show="me" @click="tab='profile'">
-    <morph-icon data-tab="profile" class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 7v10M9 10h4a2 2 0 010 4H9" icon="M12 7v10M9 10h4a2 2 0 010 4H9"></morph-icon>
+    <morph-icon data-tab="profile" class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 7v10M9 10h4a2 2 0 010 4H9" icon="M12 7v10M9 10h4a2 2 0 010 4H9">
     <span x-text="me?.points||0"></span>
   </div>
 </div></div>
@@ -137,16 +127,16 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
     <h1>万能<span class="g">视频·图片</span><br>下载器</h1>
     <p>TikTok / YouTube / 抖音 / B站 / 小红书 全平台无水印下载</p>
     <button class="btn" @click="tab='dl'">
-      <morph-icon data-tab="dl" class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14" icon="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14"></morph-icon>
+      <morph-icon data-tab="dl" class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14" icon="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14">
       进入下载
     </button>
   </div>
-  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M4 6h16v12H4z M10 9l5 3-5 3z" icon="M4 6h16v12H4z M10 9l5 3-5 3z"></morph-icon></div><div><h4>全平台视频</h4><p>TikTok 自研无水印，YouTube/抖音/B站/快手 等 1752+ 站点</p></div></div>
-  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M21 15l-5-5L5 21" icon="M21 15l-5-5L5 21"></morph-icon></div><div><h4>图片图集</h4><p>小红书/Pinterest/Instagram 多图集一键打包，4816 站点</p></div></div>
-  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" icon="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></morph-icon></div><div><h4>签到积分</h4><p>每日签到得积分，连续 7 天额外奖励，积分兑换下载券与 VIP</p></div></div>
-  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z" icon="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z"></morph-icon></div><div><h4>抽奖 · VIP</h4><p>单抽/十连赢 VIP、日卡、积分；VIP 无限下载</p></div></div>
+  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M4 6h16v12H4z M10 9l5 3-5 3z" icon="M4 6h16v12H4z M10 9l5 3-5 3z"></div><div><h4>全平台视频</h4><p>TikTok 自研无水印，YouTube/抖音/B站/快手 等 1752+ 站点</p></div></div>
+  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M21 15l-5-5L5 21" icon="M21 15l-5-5L5 21"></div><div><h4>图片图集</h4><p>小红书/Pinterest/Instagram 多图集一键打包，4816 站点</p></div></div>
+  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" icon="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></div><div><h4>签到积分</h4><p>每日签到得积分，连续 7 天额外奖励，积分兑换下载券与 VIP</p></div></div>
+  <div class="feat"><div class="fi"><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z" icon="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z"></div><div><h4>抽奖 · VIP</h4><p>单抽/十连赢 VIP、日卡、积分；VIP 无限下载</p></div></div>
   <div class="card">
-    <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M2 12h20M12 2a15 15 0 010 20a15 15 0 010-20" icon="M2 12h20M12 2a15 15 0 010 20a15 15 0 010-20"></morph-icon>支持平台</h3>
+    <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M2 12h20M12 2a15 15 0 010 20a15 15 0 010-20" icon="M2 12h20M12 2a15 15 0 010 20a15 15 0 010-20">支持平台</h3>
     <div class="chip"><template x-for="p in platforms"><span x-text="p"></span></template></div>
   </div>
 </div>
@@ -175,7 +165,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
   <!-- 已登录：下载置顶 -->
   <div x-show="me">
     <div class="card">
-      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14" icon="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14"></morph-icon>视频/图片下载</h3>
+      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14" icon="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14">视频/图片下载</h3>
       <input x-model="dlUrl" placeholder="粘贴链接 · TikTok/抖音/B站/YouTube..." @keyup.enter="doDownload()">
       <button class="btn" style="margin-top:12px" @click="doDownload()" :disabled="loading">
         <span x-show="loading" class="spin"></span>
@@ -191,7 +181,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
       </div>
     </div>
     <div class="card">
-      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z" icon="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z"></morph-icon>幸运抽奖</h3>
+      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z" icon="M12 2l2.4 7.4H22l-6 4.3 2.3 7.3-6.3-4.6L5.7 21 8 14 2 9.4h7.6z">幸运抽奖</h3>
       <div class="g2">
         <button class="btn sm" @click="lottery('1')">单抽 · 50分</button>
         <button class="btn sm" @click="lottery('10')">十连 · 450分</button>
@@ -199,7 +189,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
       <p class="muted" style="margin-top:12px;min-height:20px" x-text="lotteryOut"></p>
     </div>
     <div class="card">
-      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 7v5l3 2" icon="M12 7v5l3 2"></morph-icon>下载历史</h3>
+      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 7v5l3 2" icon="M12 7v5l3 2">下载历史</h3>
       <div class="ulist">
         <template x-for="h in history"><div class="muted" style="border-bottom:1px solid var(--line);padding:7px 0" x-text="h.time+' · '+(h.title||h.url).slice(0,34)"></div></template>
         <p class="muted" x-show="!history.length">暂无记录，下载后自动出现</p>
@@ -220,7 +210,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
   </div>
   <div class="card"><h3>🏆 积分榜</h3><canvas id="c1" height="200"></canvas></div>
   <div class="card"><h3>📥 下载榜</h3><canvas id="c2" height="200"></canvas></div>
-  <div class="card"><h3>🔥 签到榜</h3>
+  <div class="card"><h3><morph-icon class="mi sm" stroke-width="2" data-base="M12 2s4 4 4 8a4 4 0 1 1-8 0" icon="M12 2s4 4 4 8a4 4 0 1 1-8 0"></morph-icon> 签到榜</h3>
     <div class="ulist">
       <template x-for="(r,i) in (board?.top_sign||[])"><div class="uitem">
         <b style="color:var(--ac2);width:20px" x-text="i+1"></b>
@@ -259,18 +249,18 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
     </div>
     <!-- 签到 / 商城 -->
     <div class="card">
-      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" icon="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></morph-icon>每日签到 & 商城</h3>
-      <button class="btn" @click="sign()">📝 每日签到 +10 积分</button>
+      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" icon="M9 11l3 3L22 4 M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11">每日签到 & 商城</h3>
+      <button class="btn" @click="sign()"><morph-icon class="mi sm" stroke-width="2" data-base="M3 21l3-1 11-11-2-2L4 18l-1 3z M14 6l4 4" icon="M3 21l3-1 11-11-2-2L4 18l-1 3z M14 6l4 4"></morph-icon> 每日签到 +10 积分</button>
       <div class="g2" style="margin-top:11px">
-        <button class="btn sec sm" @click="buy('ticket')">🎫 下载券×10 · 80</button>
-        <button class="btn sec sm" @click="buy('daycard')">📅 日卡 · 200</button>
+        <button class="btn sec sm" @click="buy('ticket')"><morph-icon class="mi sm" stroke-width="2" data-base="M22 10V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v4a2 2 0 0 1 0 4v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 1 0-4zM9 12V8h2v4H9z M9 16v-2h2v2H9z" icon="M22 10V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v4a2 2 0 0 1 0 4v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 1 0-4zM9 12V8h2v4H9z M9 16v-2h2v2H9z"></morph-icon> 下载券×10 · 80</button>
+        <button class="btn sec sm" @click="buy('daycard')"><morph-icon class="mi sm" stroke-width="2" data-base="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10z" icon="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10z"></morph-icon> 日卡 · 200</button>
       </div>
-      <p class="muted" style="margin-top:12px">🎒 下载券 <b x-text="me?.bag?.download_tickets||0"></b> 张 · 日卡 <b x-text="me?.bag?.day_cards||0"></b> 张</p>
+      <p class="muted" style="margin-top:12px"><morph-icon class="mi sm" stroke-width="2" data-base="M7 7h10v12H7z M9 5h6v2H9z" icon="M7 7h10v12H7z M9 5h6v2H9z"></morph-icon> 下载券 <b x-text="me?.bag?.download_tickets||0"></b> 张 · 日卡 <b x-text="me?.bag?.day_cards||0"></b> 张</p>
     </div>
     <!-- 绑定 TG -->
     <div class="card">
-      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1 M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1" icon="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1 M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1"></morph-icon>绑定 Telegram</h3>
-      <p class="muted" x-show="me?.bound_tg">✅ 已绑定（ID <span x-text="me?.uid"></span>），与机器人数据共享</p>
+      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1 M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1" icon="M10 13a5 5 0 007 0l3-3a5 5 0 00-7-7l-1 1 M14 11a5 5 0 00-7 0l-3 3a5 5 0 007 7l1-1">绑定 Telegram</h3>
+      <p class="muted" x-show="me?.bound_tg"><morph-icon class="mi sm" stroke-width="2" data-base="M5 13l4 4L19 7" icon="M5 13l4 4L19 7"></morph-icon> 已绑定（ID <span x-text="me?.uid"></span>），与机器人数据共享</p>
       <template x-if="!me?.bound_tg">
         <div>
           <p class="muted" style="margin-bottom:12px">绑定后与 TG 机器人合并数据，<b>可选</b></p>
@@ -290,7 +280,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
     </div>
     <!-- 管理入口 -->
     <div class="card" x-show="me?.is_admin">
-      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z" icon="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"></morph-icon>管理后台</h3>
+      <h3><morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z" icon="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z">管理后台</h3>
       <button class="btn sec" @click="tab='admin';loadOv();loadUsers()">进入管理后台</button>
     </div>
   </div>
@@ -311,7 +301,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
       <div class="stat"><div class="n" x-text="(ov?.sys?.disk||0)+'%'"></div><div class="l">磁盘</div></div>
     </div>
     <div class="card">
-      <h3>⚙️ 用户操作</h3>
+      <h3><morph-icon class="mi sm" stroke-width="2" data-base="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z M19 12a7 7 0 1 1-14 0 7 7 0 0 1 14 0z" icon="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z M19 12a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"></morph-icon> 用户操作</h3>
       <label>用户 ID</label><input x-model="a.uid" placeholder="目标用户ID（列表点击填入）">
       <label>数值（积分/天数/小时）</label><input x-model="a.amount" placeholder="数量">
       <div class="chip" style="margin-top:14px">
@@ -339,7 +329,7 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
     </div>
     <div class="card">
       <h3>🍪 TikTok Cookie</h3>
-      <p class="muted">状态：<span x-text="ov?.cookie?.exists?(ov.cookie.has_session?'✅ 已配置(含登录态)':'⚠️ 已配置(无sessionid)'):'未配置(免登录)'"></span></p>
+      <p class="muted">状态：<span x-text="ov?.cookie?.exists?(ov.cookie.has_session?'<morph-icon class="mi sm" stroke-width="2" data-base="M5 13l4 4L19 7" icon="M5 13l4 4L19 7"></morph-icon> 已配置(含登录态)':'⚠️ 已配置(无sessionid)'):'未配置(免登录)'"></span></p>
       <label>粘贴 Cookie 字符串</label>
       <textarea x-model="ckRaw" rows="3" placeholder="tt_csrf_token=...; sessionid=...;"></textarea>
       <div class="g2" style="margin-top:10px"><button class="btn sm" @click="ckSet()">保存</button><button class="btn sec sm" @click="ckClear()">清除</button></div>
@@ -367,14 +357,100 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
 
 <!-- 底部导航 -->
 <div class="botnav">
-  <a :class="tab=='home'&&'on'" @click="tab='home'"><morph-icon icon="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" data-tab="home" spring="snappy"></morph-icon>首页</a>
-  <a :class="(tab=='dl')&&'on'" @click="tab='dl'"><morph-icon icon="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" spring="snappy"></morph-icon>下载</a>
-  <a :class="tab=='board'&&'on'" @click="tab='board';loadBoard()"><morph-icon icon="M3 3v16a2 2 0 0 0 2 2h16M18 17V9M13 17V5M8 17v-3" spring="snappy"></morph-icon>数据</a>
-  <a :class="(tab=='profile'||tab=='admin')&&'on'" @click="tab='profile'"><morph-icon icon="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2M12 7a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" spring="snappy"></morph-icon>我的</a>
+  <a :class="tab=='home'&&'on'" @click="tab='home'">
+    <morph-icon data-tab="home" class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M3 11l9-8 9 8 M5 10v10h14V10" icon="M3 11l9-8 9 8 M5 10v10h14V10">首页</a>
+  <a :class="(tab=='dl')&&'on'" @click="tab='dl'">
+    <morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14" icon="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14">下载</a>
+  <a :class="tab=='board'&&'on'" @click="tab='board';loadBoard()">
+    <morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M4 20V10M10 20V4M16 20v-7M22 20H2" icon="M4 20V10M10 20V4M16 20v-7M22 20H2">数据</a>
+  <a :class="(tab=='profile'||tab=='admin')&&'on'" @click="tab='profile'">
+    <morph-icon class="mi" viewBox="0 0 24 24" stroke-width="2" data-base="M4 21c0-4 4-6 8-6s8 2 8 6" icon="M4 21c0-4 4-6 8-6s8 2 8 6">我的</a>
 </div>
 
 <div class="toast" x-show="toast" x-text="toast" x-transition></div>
 
+<script>
+function app(){return{
+  tab:'home', loading:false, toast:'',
+  platforms:['TikTok','YouTube','抖音','快手','B站','小红书','微博','西瓜','皮皮虾','Twitter/X','Instagram','Facebook','Reddit','Pinterest','淘宝','京东'],
+  authMode:'login', auUser:'', auPass:'',
+  bindStep:0, bindTgId:'', bindCode:'',
+  me:null, token:localStorage.getItem('tok')||'',
+  dlUrl:'', dlResult:null, lotteryOut:'', history:[],
+  board:null,
+  ov:null, users:{users:[],total:0}, userQ:'', a:{uid:'',amount:'',text:''}, ckRaw:'',
 
+  init(){ if(this.token)this.loadMe(); this.loadBoard(); },
+  tos(m){ this.toast=m; setTimeout(()=>this.toast='',2500); },
+  async post(u,data){ const fd=new FormData(); for(let k in data)fd.append(k,data[k]);
+    const h={}; if(this.token)h['X-Session']=this.token;
+    const r=await fetch(u,{method:'POST',body:fd,headers:h}); return r.json(); },
+  async get(u){ const h={}; if(this.token)h['X-Session']=this.token;
+    const r=await fetch(u,{headers:h}); return r.json(); },
+
+  async doAuth(){ if(!this.auUser||!this.auPass){this.tos('请填写用户名和密码');return} this.loading=true;
+    const r=await this.post(this.authMode=='reg'?'/api/register':'/api/login',{username:this.auUser,password:this.auPass}); this.loading=false;
+    if(r.ok){ this.token=r.token; localStorage.setItem('tok',r.token); await this.loadMe(); this.loadHistory(); this.tos(r.msg||'成功'); this.auPass=''; }
+    else this.tos(r.msg); },
+  async loadMe(){ try{ this.me=await this.get('/api/me'); }catch(e){ this.token='';localStorage.removeItem('tok'); } },
+  logout(){ this.token='';this.me=null;localStorage.removeItem('tok'); this.tab='dl'; },
+
+  async sign(){ const r=await this.post('/api/sign',{}); this.tos(r.msg); if(r.ok)this.loadMe(); },
+  async doDownload(){ if(!this.dlUrl){this.tos('请输入链接');return} this.loading=true;this.dlResult=null;
+    const r=await this.post('/api/download',{url:this.dlUrl}); this.loading=false;
+    if(r.ok){ this.dlResult=r; this.loadMe(); this.loadHistory(); this.tos('下载成功'); } else this.tos(r.msg); },
+  async buy(item){ const r=await this.post('/api/shop/buy',{item}); this.tos(r.msg); if(r.ok)this.loadMe(); },
+  async lottery(mode){ const r=await this.post('/api/lottery',{mode});
+    if(r.ok){ this.lotteryOut='🎉 '+r.results.join('  ')+'  · 剩 '+r.points+' 分'; this.loadMe(); } else this.tos(r.msg); },
+  async loadHistory(){ if(!this.token)return; const r=await this.get('/api/history'); this.history=r.history||[]; },
+
+  async loadBoard(){ this.board=await this.get('/api/stats'); this.$nextTick(()=>this.charts()); },
+  charts(){ if(!this.board)return; ['c1','c2'].forEach((id,i)=>{ const el=document.getElementById(id); if(!el)return; if(el._c)el._c.destroy();
+    const src=i==0?this.board.top_points:this.board.top_downloads, key=i==0?'points':'downloads';
+    el._c=new Chart(el,{type:'bar',data:{labels:src.map(r=>r.name.slice(0,7)),datasets:[{data:src.map(r=>r[key]),backgroundColor:i==0?'#4f8cff':'#22d3ee',borderRadius:6}]},
+      options:{plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#8595b3',font:{size:10}},grid:{display:false}},y:{ticks:{color:'#8595b3'},grid:{color:'#232f48'}}}}}); }); },
+
+  async bindReq(){ if(!this.bindTgId){this.tos('请输入 TG ID');return} this.loading=true;
+    const r=await this.post('/api/bind/tg/request',{tg_uid:this.bindTgId}); this.loading=false; this.tos(r.msg); if(r.ok)this.bindStep=2; },
+  async bindVerify(){ this.loading=true; const r=await this.post('/api/bind/tg/verify',{code:this.bindCode}); this.loading=false;
+    this.tos(r.msg); if(r.ok){ this.bindStep=0;this.bindCode='';this.bindTgId=''; this.loadMe(); } },
+  async unbindTg(){ const r=await this.post('/api/bind/tg/unbind',{}); this.tos(r.msg); if(r.ok)this.loadMe(); },
+
+  async loadOv(){ try{ this.ov=await this.get('/api/admin/overview'); }catch(e){} },
+  async loadUsers(){ this.users=await this.get('/api/admin/users?q='+encodeURIComponent(this.userQ)); },
+  async act(a){ const r=await this.post('/api/admin/action',{act:a,uid:this.a.uid,amount:this.a.amount,text:this.a.text}); this.tos(r.msg); if(r.ok){this.loadOv();this.loadUsers();} },
+  async delUser(){ if(!this.a.uid){this.tos('请先选择用户');return} if(!confirm('确认删除用户 '+this.a.uid+' ？此操作不可恢复')){return}
+    const r=await this.post('/api/admin/action',{act:'delete',uid:this.a.uid}); this.tos(r.msg); if(r.ok){this.a.uid='';this.loadOv();this.loadUsers();} },
+  async ckSet(){ if(!this.ckRaw){this.tos('请粘贴Cookie');return} const r=await this.post('/api/admin/cookie',{act:'set',raw:this.ckRaw}); this.tos(r.msg); if(r.ok){this.ckRaw='';this.loadOv();} },
+  async ckClear(){ const r=await this.post('/api/admin/cookie',{act:'clear'}); this.tos(r.msg); this.loadOv(); },
+}}
+</script>
+
+<script type="module">
+// === Morphicons 注册 + 底部导航交互 ===
+import { defineMorphIcon } from '/assets/morph-element.js';
+defineMorphIcon();
+
+const wireNav = () => {
+  document.querySelectorAll('.botnav a').forEach(a => {
+    if (a.__mw) return; a.__mw = true;
+    a.addEventListener('click', () => {
+      const mi = a.querySelector('morph-icon');
+      if (!mi) return;
+      const base = mi.getAttribute('data-base');
+      if (!base) return;
+      mi.setAttribute('icon', 'M5 13l4 4L19 7');
+      setTimeout(() => mi.setAttribute('icon', base), 700);
+    });
+  });
+};
+wireNav();
+new MutationObserver(wireNav).observe(document.body, { childList: true, subtree: true });
+
+window.morphTo = (sel, d) => {
+  const el = document.querySelector(sel);
+  if (el && el.setAttribute) el.setAttribute('icon', d);
+};
+</script>
 </body>
 </html>
