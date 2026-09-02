@@ -105,7 +105,14 @@ label{display:block;font-size:13.5px;color:var(--sub);margin:14px 0 7px;font-wei
   .botnav{display:none}
   .g2.wide{grid-template-columns:1fr 1fr}
 }
-</style>
+
+/* === Morphicons 样式 === */
+morph-icon{display:inline-flex;align-items:center;justify-content:center;width:1em;height:1em;line-height:1;vertical-align:middle;flex-shrink:0}
+.fi morph-icon, h3 morph-icon{width:22px;height:22px}
+.ptag morph-icon{width:14px;height:14px}
+.sm morph-icon{width:16px;height:16px;margin:0 4px;vertical-align:middle}
+.botnav a morph-icon{width:22px;height:22px}
+>
 </head>
 <body x-data="app()" x-init="init()">
 
@@ -454,3 +461,10 @@ window.morphTo = (sel, d) => {
 </script>
 </body>
 </html>
+/* === Morphicons 样式 === */
+morph-icon{display:inline-flex;align-items:center;justify-content:center;width:1em;height:1em;line-height:1;vertical-align:middle;flex-shrink:0}
+.fi morph-icon, h3 morph-icon{width:22px;height:22px}
+.ptag morph-icon{width:14px;height:14px}
+.sm morph-icon{width:16px;height:16px;margin:0 4px;vertical-align:middle}
+.botnav a morph-icon{width:22px;height:22px}
+
