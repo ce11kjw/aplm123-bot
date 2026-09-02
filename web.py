@@ -8,6 +8,7 @@ sys.path.insert(0, "/root/aplm123-bot")
 
 from fastapi import FastAPI, Request, HTTPException, Form
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 import requests as _rq
 
 from data_manager import (
@@ -559,6 +560,8 @@ def admin_cookie(request: Request, act: str = Form(...), raw: str = Form("")):
         return {"ok": True, "msg": "Cookie 已清除"}
     return {"ok": False, "msg": "未知操作"}
 
+
+app.mount("/assets", StaticFiles(directory=os.path.join(ROOT, "assets")))
 
 if __name__ == "__main__":
     import uvicorn
